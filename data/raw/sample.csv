@@ -1,0 +1,4 @@
+job_id,job_title,location,business_type,job_type,skills_required,date_posted,contact
+1,Cashier,Main Street,Shop,Unskilled,None,2025-08-18,9876543210
+2,Delivery Person,Park Avenue,Shop,Unskilled,Driving,2025-08-18,9876543211
+3,Electrician,Maple Lane,Household,Skilled,Electrician Certificate,2025-08-17,9876543212
