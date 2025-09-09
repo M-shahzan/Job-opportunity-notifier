@@ -1,0 +1,15 @@
+<form method="POST">
+  <input type="text" name="skills" placeholder="Skills" value="{{ preference.skills if preference else '' }}">
+  <input type="text" name="location" placeholder="Location" value="{{ preference.location if preference else '' }}">
+  <select name="job_type">
+    <option value="full-time">Full-time</option>
+    <option value="part-time">Part-time</option>
+    <option value="remote">Remote</option>
+  </select>
+  <select name="experience_level">
+    <option value="fresher">Fresher</option>
+    <option value="mid">Mid</option>
+    <option value="senior">Senior</option>
+  </select>
+  <button type="submit">Save Preferences</button>
+</form>

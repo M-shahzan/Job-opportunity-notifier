@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Recommendations</title>
+    <style>
+        .job-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .similarity-score {
+            background-color: #007bff;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            float: right;
+        }
+        .apply-form {
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .apply-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        textarea {
+            width: 100%;
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Recommended Jobs For You</h1>
+    <p>Based on your preferences: skills, location, job type, and experience level</p>
+
+    {% if recommendations %}
+        {% for rec in recommendations %}
+            {% set job = rec.job %}
+            <div class="job-card">
+                <span class="similarity-score">Match: {{ (rec.similarity_score * 100)|round|int }}%</span>
+                <strong>{{ job.title }}</strong> ({{ job.job_type }})<br>
+                <strong>Location:</strong> {{ job.location }}<br>
+                <strong>Skills:</strong> {{ job.skills_required }}<br>
+                <strong>Experience:</strong> {{ job.experience_level }}<br>
+                <strong>Description:</strong> {{ job.description }}<br>
+                <strong>Posted on:</strong> {{ job.created_at.strftime('%Y-%m-%d') }}<br>
+                
+                <div class="apply-form">
+                    <form method="POST" action="{{ url_for('seeker.apply_job', job_id=job.id) }}" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="resume_{{ job.id }}"><strong>Resume:</strong></label>
+                            <input type="file" name="resume" id="resume_{{ job.id }}" 
+                                   accept=".pdf,.doc,.docx" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cover_letter_{{ job.id }}">Cover Letter (Optional):</label>
+                            <textarea name="cover_letter" id="cover_letter_{{ job.id }}" 
+                                      placeholder="Why are you interested in this position?"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="apply-btn">Apply Now</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No recommendations available. Please update your <a href="{{ url_for('seeker.preferences') }}">preferences</a> first.</p>
+    {% endif %}
+
+    <p>
+        <a href="{{ url_for('seeker.view_jobs') }}">View All Jobs</a> | 
+        <a href="{{ url_for('seeker.preferences') }}">Update Preferences</a> | 
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </p>
+</body>
+</html>

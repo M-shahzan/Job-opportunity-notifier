@@ -1,0 +1,28 @@
+<!-- templates/applications.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Applications</title>
+</head>
+<body>
+    <h2>My Job Applications</h2>
+    
+    {% if applications %}
+        {% for app in applications %}
+        <div class="application-card">
+            <h3>{{ app.job.title }}</h3>
+            <p><strong>Company:</strong> {{ app.job.company }}</p>
+            <p><strong>Location:</strong> {{ app.job.location }}</p>
+            <p><strong>Applied on:</strong> {{ app.applied_at.strftime('%Y-%m-%d') }}</p>
+            <p><strong>Status:</strong> 
+                <span class="status-{{ app.status }}">{{ app.status.title() }}</span>
+            </p>
+        </div>
+        <hr>
+        {% endfor %}
+    {% else %}
+        <p>You haven't applied for any jobs yet.</p>
+        <a href="{{ url_for('seeker.view_jobs') }}">Browse Jobs</a>
+    {% endif %}
+</body>
+</html>
